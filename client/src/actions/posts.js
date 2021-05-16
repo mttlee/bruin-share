@@ -53,9 +53,7 @@ export const likePost = (id) => async (dispatch) => {
 
 export const getSpecificPosts = (subjectId, classId) => async (dispatch) => {
     try {
-        console.log(subjectId, classId)
         const { data } = await api.getSpecificPosts(subjectId, classId);
-        console.log(data)
         dispatch({ type: FETCH_SPECIFIC, payload: data });
     } catch (error) {
         console.log(error.message)

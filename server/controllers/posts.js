@@ -8,7 +8,6 @@ const router = express.Router();
 export const getPosts = async (req, res) => { 
     try {
         const postMessages = await PostMessage.find();
-        console.log(postMessages)
         res.status(200).json(postMessages);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -66,7 +65,6 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
     const { id } = req.params;
-    console.log(id)
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
@@ -80,13 +78,11 @@ export const likePost = async (req, res) => {
 export const getSpecificPosts = async (req, res) => { 
     const { subjectId } = req.params;
     const { classId } = req.params;
-    console.log(subjectId, classId)
     try {
         const posts = await PostMessage.find({
             'subjectId': `${subjectId}`,
             'classId': `${classId}`,
         });
-        console.log(posts)
         
         res.status(200).json(posts);
     } catch (error) {
@@ -97,7 +93,6 @@ export const getSpecificPosts = async (req, res) => {
 export const getSubjects = async (req, res) => { 
     try {
         const subjects = await PostMessage.distinct('subjectId');
-        console.log(subjects)
         res.status(200).json(subjects);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -106,10 +101,8 @@ export const getSubjects = async (req, res) => {
 
 export const getClasses = async (req, res) => { 
     const { subjectId } = req.params;
-    console.log(subjectId)
     try {
         const classes = await PostMessage.distinct('classId', { subjectId: {$eq: `${subjectId}`}});
-        console.log(classes)
         res.status(200).json(classes);
     } catch (error) {
         res.status(404).json({ message: error.message });
