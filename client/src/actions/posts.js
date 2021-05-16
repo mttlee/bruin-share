@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, /*DELETE,*/ LIKE, PREVIEW, DOWNLOAD } from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch) => {
     try {
@@ -31,7 +31,7 @@ export const updatePost = (id, post) => async (dispatch) => {
     }
 }
 
-export const deletePost = (id) => async (dispatch) => {
+/*export const deletePost = (id) => async (dispatch) => {
     try {
       await api.deletePost(id);
   
@@ -39,7 +39,7 @@ export const deletePost = (id) => async (dispatch) => {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  };*/
 
 export const likePost = (id) => async (dispatch) => {
     try {
