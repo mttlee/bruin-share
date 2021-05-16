@@ -12,8 +12,15 @@ const postSchema = mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date()
+        default: new Date(),
     },
+    subjectId: String,
+    classId: String,
+    year: {
+        type: String,
+        default: '2021',
+    },
+    quarter: String,
 });
 
 var PostMessage = mongoose.model('PostMessage', postSchema);

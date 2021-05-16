@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_SPECIFIC, FETCH_SUBJECTS, FETCH_CLASSES, CLEAR_POSTS } from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch) => {
     try {
@@ -48,5 +48,42 @@ export const likePost = (id) => async (dispatch) => {
         dispatch({ type: LIKE, payload: data });
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const getSpecificPosts = (subjectId, classId) => async (dispatch) => {
+    try {
+        console.log(subjectId, classId)
+        const { data } = await api.getSpecificPosts(subjectId, classId);
+        console.log(data)
+        dispatch({ type: FETCH_SPECIFIC, payload: data });
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getSubjects = () => async (dispatch) => {
+    try {
+        const { data } = await api.getSubjects();
+        dispatch({ type: FETCH_SUBJECTS, payload: data });
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getClasses = (subjectId) => async (dispatch) => {
+    try {
+        const { data } = await api.getClasses(subjectId);
+        dispatch({ type: FETCH_CLASSES, payload: data });
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const clearPosts = () => async (dispatch) => {
+    try {
+        dispatch({ type: CLEAR_POSTS });
+    } catch (error) {
+        console.log(error.message)
     }
 }

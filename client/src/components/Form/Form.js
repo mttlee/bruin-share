@@ -7,7 +7,7 @@ import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+  const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '', subjectId: '', classId: '', year: '', quarter: '' });
   const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -18,7 +18,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setCurrentId(0);
-    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '', subjectId: '', classId: '', year: '', quarter: '' });
   };
 
   const handleSubmit = async (e) => {
@@ -41,6 +41,10 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
         <TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
         <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
+        <TextField name="title" variant="outlined" label="Subject" fullWidth value={postData.subjectId} onChange={(e) => setPostData({ ...postData, subjectId: e.target.value })} />
+        <TextField name="title" variant="outlined" label="Class" fullWidth value={postData.classId} onChange={(e) => setPostData({ ...postData, classId: e.target.value })} />
+        <TextField name="title" variant="outlined" label="Year" fullWidth value={postData.year} onChange={(e) => setPostData({ ...postData, year: e.target.value })} />
+        <TextField name="title" variant="outlined" label="Quarter" fullWidth value={postData.quarter} onChange={(e) => setPostData({ ...postData, quarter: e.target.value })} />
         <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} /></div>
         <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
         <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>

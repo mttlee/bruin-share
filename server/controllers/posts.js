@@ -8,7 +8,7 @@ const router = express.Router();
 export const getPosts = async (req, res) => { 
     try {
         const postMessages = await PostMessage.find();
-                
+        console.log(postMessages)
         res.status(200).json(postMessages);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -28,9 +28,9 @@ export const getPost = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
-    const { title, message, selectedFile, creator, tags } = req.body;
+    const { title, message, selectedFile, creator, tags, subjectId, classId, year, quarter } = req.body;
 
-    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
+    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags, subjectId, classId, year, quarter })
 
     try {
         await newPostMessage.save();
@@ -43,11 +43,11 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
     const { id } = req.params;
-    const { title, message, creator, selectedFile, tags } = req.body;
+    const { title, message, creator, selectedFile, tags, subjectId, classId, year, quarter } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const updatedPost = { creator, title, message, tags, selectedFile, _id: id };
+    const updatedPost = { creator, title, message, tags, selectedFile, subjectId, classId, year, quarter, _id: id };
 
     await PostMessage.findByIdAndUpdate(id, updatedPost, { new: true });
 
@@ -66,6 +66,7 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
     const { id } = req.params;
+    console.log(id)
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
@@ -74,6 +75,45 @@ export const likePost = async (req, res) => {
     const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
     
     res.json(updatedPost);
+}
+
+export const getSpecificPosts = async (req, res) => { 
+    const { subjectId } = req.params;
+    const { classId } = req.params;
+    console.log(subjectId, classId)
+    try {
+        const posts = await PostMessage.find({
+            'subjectId': `${subjectId}`,
+            'classId': `${classId}`,
+        });
+        console.log(posts)
+        
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getSubjects = async (req, res) => { 
+    try {
+        const subjects = await PostMessage.distinct('subjectId');
+        console.log(subjects)
+        res.status(200).json(subjects);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getClasses = async (req, res) => { 
+    const { subjectId } = req.params;
+    console.log(subjectId)
+    try {
+        const classes = await PostMessage.distinct('classId', { subjectId: {$eq: `${subjectId}`}});
+        console.log(classes)
+        res.status(200).json(classes);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
 }
 
 
