@@ -7,7 +7,7 @@ import Posts from './components/Posts/Posts'
 import Subjects from './components/Subjects/Subjects'
 import Classes from './components/Classes/Classes'
 import Form from './components/Form/Form'
-import memories from './images/memories.png'
+import memories from './images/bruinlogo.png'
 import useStyles from './styles';
 
 const App = () => {
